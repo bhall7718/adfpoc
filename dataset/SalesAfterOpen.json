@@ -1,0 +1,21 @@
+{
+	"name": "SalesAfterOpen",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "wmtredata",
+			"type": "LinkedServiceReference"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "",
+				"folderPath": "datechecks",
+				"container": "walmartdata"
+			},
+			"columnDelimiter": ",",
+			"firstRowAsHeader": true
+		},
+		"schema": []
+	}
+}
