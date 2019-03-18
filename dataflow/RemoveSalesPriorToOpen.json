@@ -1,6 +1,38 @@
 {
 	"name": "RemoveSalesPriorToOpen",
 	"properties": {
-		"type": "MappingDataFlow"
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "RemoveNullsOutput2",
+						"type": "DatasetReference"
+					},
+					"name": "NullsRemovedCaseData",
+					"script": "source(output(\n\t\tStore_nbr as short,\n\t\tStrType as string,\n\t\tOpenDate as date,\n\t\tgregorian_date as date,\n\t\tCases as short,\n\t\tSales as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> NullsRemovedCaseData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "SalesAfterOpen",
+						"type": "DatasetReference"
+					},
+					"name": "SaveSalesAfterOpenCSV",
+					"script": "SalesAfterOpen sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['salesAfterOpen.csv'],\n\ttruncate:true) ~> SaveSalesAfterOpenCSV"
+				}
+			],
+			"transformations": [
+				{
+					"name": "SalesAfterOpen",
+					"script": "NullsRemovedCaseData filter(gregorian_date > OpenDate) ~> SalesAfterOpen"
+				},
+				{
+					"name": "SalesPriorToOpen",
+					"script": "NullsRemovedCaseData filter(OpenDate > gregorian_date) ~> SalesPriorToOpen"
+				}
+			]
+		}
 	}
 }
