@@ -1,18 +1,6 @@
 {
 	"name": "RemoveDuplicates",
 	"properties": {
-		"type": "MappingDataFlow",
-		"typeProperties": {
-			"sources": [
-				{
-					"dataset": {
-						"referenceName": "RemoveNullsOutput",
-						"type": "DatasetReference"
-					},
-					"name": "CaseDataNullsRemoved",
-					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tlimit: 25) ~> CaseDataNullsRemoved"
-				}
-			]
-		}
+		"type": "MappingDataFlow"
 	}
 }
