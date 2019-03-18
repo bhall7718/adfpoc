@@ -6,11 +6,11 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "CaseData",
+						"referenceName": "CaseData2",
 						"type": "DatasetReference"
 					},
 					"name": "OriginalCaseData",
-					"script": "source(output(\n\t\tStore_nbr as string,\n\t\tStrType as string,\n\t\tOpenDate as string,\n\t\tgregorian_date as string,\n\t\tCases as string,\n\t\tSales as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> OriginalCaseData"
+					"script": "source(output(\n\t\tStore_nbr as string,\n\t\tStrType as string,\n\t\tOpenDate as string,\n\t\tgregorian_date as string,\n\t\tCases as string,\n\t\tSales as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> OriginalCaseData"
 				}
 			],
 			"sinks": [
