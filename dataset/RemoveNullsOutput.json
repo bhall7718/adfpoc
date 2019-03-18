@@ -1,5 +1,5 @@
 {
-	"name": "TempOutput",
+	"name": "RemoveNullsOutput",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "wmtpopdatapocblob",

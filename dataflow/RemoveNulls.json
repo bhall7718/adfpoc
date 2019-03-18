@@ -16,7 +16,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "TempOutput",
+						"referenceName": "RemoveNullsOutput",
 						"type": "DatasetReference"
 					},
 					"name": "OutputToCSV",
