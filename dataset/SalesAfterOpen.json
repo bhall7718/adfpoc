@@ -10,7 +10,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": "",
-				"folderPath": "datechecks",
+				"folderPath": "salesafteropen",
 				"container": "walmartdata"
 			},
 			"columnDelimiter": ",",
