@@ -10,7 +10,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "OriginalCaseData",
-					"script": "source(output(\n\t\tStore_nbr as string,\n\t\tStrType as string,\n\t\tOpenDate as string,\n\t\tgregorian_date as string,\n\t\tCases as string,\n\t\tSales as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> OriginalCaseData"
+					"script": "source(output(\n\t\tStore_nbr as string,\n\t\tStrType as string,\n\t\tOpenDate as string,\n\t\tgregorian_date as string,\n\t\tCases as string,\n\t\tSales as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> OriginalCaseData"
 				}
 			],
 			"sinks": [
@@ -20,7 +20,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "OutputToCSV",
-					"script": "RemoveNullStoreType sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['removenullsoutput.csv'],\n\ttruncate:true) ~> OutputToCSV"
+					"script": "RemoveZeroSales sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['removenullsoutput.csv'],\n\ttruncate:true) ~> OutputToCSV"
 				}
 			],
 			"transformations": [
@@ -47,6 +47,10 @@
 				{
 					"name": "RemoveNullStoreType",
 					"script": "RemoveNullGregDate filter(not(isNull(StrType))) ~> RemoveNullStoreType"
+				},
+				{
+					"name": "RemoveZeroSales",
+					"script": "RemoveNullStoreType filter(Sales > 0.0) ~> RemoveZeroSales"
 				}
 			]
 		}
