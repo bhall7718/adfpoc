@@ -9,7 +9,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "output.csv",
+				"fileName": "output",
 				"folderPath": "nullfilters",
 				"container": "walmartdata"
 			},
