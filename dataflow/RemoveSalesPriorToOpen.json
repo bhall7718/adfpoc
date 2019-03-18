@@ -21,6 +21,14 @@
 					},
 					"name": "SaveSalesAfterOpenCSV",
 					"script": "SalesAfterOpen sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['salesAfterOpen.csv'],\n\ttruncate:true) ~> SaveSalesAfterOpenCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "SalesPriorToOpen",
+						"type": "DatasetReference"
+					},
+					"name": "SaveSalesPriorToOpenCSV",
+					"script": "SalesPriorToOpen sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['salesPriorToOpen.csv'],\n\ttruncate:true) ~> SaveSalesPriorToOpenCSV"
 				}
 			],
 			"transformations": [
