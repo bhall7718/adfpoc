@@ -20,7 +20,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "OutputToCSV",
-					"script": "RemoveNullStoreType sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\ttruncate:true) ~> OutputToCSV"
+					"script": "RemoveNullStoreType sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['removenullsoutput.csv'],\n\ttruncate:true) ~> OutputToCSV"
 				}
 			],
 			"transformations": [
