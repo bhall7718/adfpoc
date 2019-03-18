@@ -22,6 +22,35 @@
 						"coreCount": 8
 					}
 				}
+			},
+			{
+				"name": "RemoveDuplicates",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "RemoveNulls",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "RemoveDuplicates",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"computeType": "General",
+						"coreCount": 8
+					}
+				}
 			}
 		]
 	},
