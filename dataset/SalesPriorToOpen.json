@@ -1,0 +1,20 @@
+{
+	"name": "SalesPriorToOpen",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "wmtredata",
+			"type": "LinkedServiceReference"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "salespriortoopen",
+				"container": "walmartdata"
+			},
+			"columnDelimiter": ",",
+			"firstRowAsHeader": true
+		},
+		"schema": []
+	}
+}
