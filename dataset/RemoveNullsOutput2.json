@@ -1,0 +1,20 @@
+{
+	"name": "RemoveNullsOutput2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "wmtredata",
+			"type": "LinkedServiceReference"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "nullfilters",
+				"container": "walmartdata"
+			},
+			"columnDelimiter": ",",
+			"firstRowAsHeader": true
+		},
+		"schema": []
+	}
+}
