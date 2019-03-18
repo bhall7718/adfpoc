@@ -1,0 +1,51 @@
+{
+	"name": "RawCaseData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "wmtpopdatapocblob",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureBlob",
+		"structure": [
+			{
+				"name": "Store_nbr",
+				"type": "String"
+			},
+			{
+				"name": "StrType",
+				"type": "String"
+			},
+			{
+				"name": "OpenDate",
+				"type": "DateTime"
+			},
+			{
+				"name": "gregorian_date",
+				"type": "DateTime",
+				"culture": "ka-GE"
+			},
+			{
+				"name": "Cases",
+				"type": "Int16"
+			},
+			{
+				"name": "Sales",
+				"type": "Decimal"
+			}
+		],
+		"typeProperties": {
+			"format": {
+				"type": "TextFormat",
+				"columnDelimiter": ",",
+				"rowDelimiter": "",
+				"nullValue": "\\N",
+				"treatEmptyAsNull": true,
+				"skipLineCount": 0,
+				"firstRowAsHeader": true
+			},
+			"fileName": "case forecast dataset.csv",
+			"folderPath": "walmartdata"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

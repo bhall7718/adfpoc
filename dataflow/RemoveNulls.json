@@ -1,0 +1,28 @@
+{
+	"name": "RemoveNulls",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "CaseData",
+						"type": "DatasetReference"
+					},
+					"name": "CaseData",
+					"script": "source(output(\n\t\tStore_nbr as string,\n\t\tStrType as string,\n\t\tOpenDate as string,\n\t\tgregorian_date as string,\n\t\tCases as short,\n\t\tSales as decimal(10,0)\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CaseData"
+				}
+			],
+			"transformations": [
+				{
+					"name": "RemoveNullCases",
+					"script": "CaseData filter(not(isNull(Cases))) ~> RemoveNullCases"
+				},
+				{
+					"name": "RemoveNullStoreNbr",
+					"script": "RemoveNullCases filter(not(isNull(Store_nbr))) ~> RemoveNullStoreNbr"
+				}
+			]
+		}
+	}
+}
