@@ -1,0 +1,6 @@
+{
+	"name": "RemoveSalesPriorToOpen",
+	"properties": {
+		"type": "MappingDataFlow"
+	}
+}
