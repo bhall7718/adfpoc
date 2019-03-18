@@ -1,0 +1,21 @@
+{
+	"name": "TempOutput",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "wmtpopdatapocblob",
+			"type": "LinkedServiceReference"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "output.csv",
+				"folderPath": "nullfilters",
+				"container": "walmartdata"
+			},
+			"columnDelimiter": ",",
+			"firstRowAsHeader": true
+		},
+		"schema": []
+	}
+}
