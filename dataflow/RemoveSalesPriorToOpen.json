@@ -6,11 +6,11 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "RemoveNullsOutput2",
+						"referenceName": "RemoveNullsOutput",
 						"type": "DatasetReference"
 					},
-					"name": "NullsRemovedCaseData",
-					"script": "source(output(\n\t\tStore_nbr as short,\n\t\tStrType as string,\n\t\tOpenDate as date,\n\t\tgregorian_date as date,\n\t\tCases as short,\n\t\tSales as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> NullsRemovedCaseData"
+					"name": "Stage2CaseData",
+					"script": "source(output(\n\t\tStore_nbr as short,\n\t\tStrType as string,\n\t\tOpenDate as date,\n\t\tgregorian_date as date,\n\t\tCases as short,\n\t\tSales as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> Stage2CaseData"
 				}
 			],
 			"sinks": [
@@ -20,7 +20,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "SaveSalesAfterOpenCSV",
-					"script": "SalesAfterOpen sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['salesAfterOpen.csv'],\n\ttruncate:true) ~> SaveSalesAfterOpenCSV"
+					"script": "SalesAfterOpen sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['salesAfterOpen.csv']) ~> SaveSalesAfterOpenCSV"
 				},
 				{
 					"dataset": {
@@ -28,17 +28,17 @@
 						"type": "DatasetReference"
 					},
 					"name": "SaveSalesPriorToOpenCSV",
-					"script": "SalesPriorToOpen sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['salesPriorToOpen.csv'],\n\ttruncate:true) ~> SaveSalesPriorToOpenCSV"
+					"script": "SalesPriorToOpen sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['salesPriorToOpen.csv']) ~> SaveSalesPriorToOpenCSV"
 				}
 			],
 			"transformations": [
 				{
 					"name": "SalesAfterOpen",
-					"script": "NullsRemovedCaseData filter(gregorian_date > OpenDate) ~> SalesAfterOpen"
+					"script": "Stage2CaseData filter(gregorian_date > OpenDate) ~> SalesAfterOpen"
 				},
 				{
 					"name": "SalesPriorToOpen",
-					"script": "NullsRemovedCaseData filter(OpenDate > gregorian_date) ~> SalesPriorToOpen"
+					"script": "Stage2CaseData filter(OpenDate > gregorian_date) ~> SalesPriorToOpen"
 				}
 			]
 		}

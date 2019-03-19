@@ -6,27 +6,27 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "CaseData2",
+						"referenceName": "CaseData",
 						"type": "DatasetReference"
 					},
-					"name": "OriginalCaseData",
-					"script": "source(output(\n\t\tStore_nbr as string,\n\t\tStrType as string,\n\t\tOpenDate as string,\n\t\tgregorian_date as string,\n\t\tCases as string,\n\t\tSales as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> OriginalCaseData"
+					"name": "Stage1CaseData",
+					"script": "source(output(\n\t\tStore_nbr as string,\n\t\tStrType as string,\n\t\tOpenDate as string,\n\t\tgregorian_date as string,\n\t\tCases as string,\n\t\tSales as double\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> Stage1CaseData"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "RemoveNullsOutput2",
+						"referenceName": "RemoveNullsOutput",
 						"type": "DatasetReference"
 					},
 					"name": "OutputToCSV",
-					"script": "RemoveZeroSales sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['removenullsoutput.csv'],\n\ttruncate:true) ~> OutputToCSV"
+					"script": "RemoveZeroSales sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['removenullsoutput.csv']) ~> OutputToCSV"
 				}
 			],
 			"transformations": [
 				{
 					"name": "RemoveNullCases",
-					"script": "OriginalCaseData filter(not(isNull(Cases))) ~> RemoveNullCases"
+					"script": "Stage1CaseData filter(not(isNull(Cases))) ~> RemoveNullCases"
 				},
 				{
 					"name": "RemoveNullSales",

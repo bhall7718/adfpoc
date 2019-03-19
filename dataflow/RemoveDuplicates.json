@@ -9,8 +9,52 @@
 						"referenceName": "SalesAfterOpen",
 						"type": "DatasetReference"
 					},
-					"name": "source1",
-					"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> source1"
+					"name": "Stage3CaseData",
+					"script": "source(output(\n\t\tStore_nbr as string,\n\t\tStrType as string,\n\t\tOpenDate as string,\n\t\tgregorian_date as string,\n\t\tCases as string,\n\t\tSales as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> Stage3CaseData"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DeDuped",
+						"type": "DatasetReference"
+					},
+					"name": "SaveToDeDupedCSV",
+					"script": "FinalDeDupedRows sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['deduped.csv'],\n\ttruncate:true) ~> SaveToDeDupedCSV"
+				}
+			],
+			"transformations": [
+				{
+					"name": "GenerateMD5Hash",
+					"script": "SurrogateKey1 derive(UniqueKey = md5(concat(Store_nbr, OpenDate, gregorian_date, Cases, Sales))) ~> GenerateMD5Hash"
+				},
+				{
+					"name": "HashCountAggregate",
+					"script": "GenerateMD5Hash aggregate(groupBy(UniqueKey),\n\thashcount = sum(1),\n\t\tid = max(id)) ~> HashCountAggregate"
+				},
+				{
+					"name": "HashCountGreaterThanOne",
+					"script": "HashCountAggregate filter(hashcount > 1) ~> HashCountGreaterThanOne"
+				},
+				{
+					"name": "SurrogateKey1",
+					"script": "Stage3CaseData keyGenerate(output(id as long),\n\tstartAt: 1L) ~> SurrogateKey1"
+				},
+				{
+					"name": "DeDupedRows",
+					"script": "GenerateMD5Hash, HashCountAggregate join(SurrogateKey1@id == HashCountAggregate@id,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> DeDupedRows"
+				},
+				{
+					"name": "FinalDeDupedRows",
+					"script": "DeDupedRows select(mapColumn(\n\t\tStore_nbr,\n\t\tStrType,\n\t\tOpenDate,\n\t\tgregorian_date,\n\t\tCases,\n\t\tSales\n\t))~> FinalDeDupedRows"
+				},
+				{
+					"name": "OnlyDuplicateRows",
+					"script": "GenerateMD5Hash, HashCountGreaterThanOne join(GenerateMD5Hash@UniqueKey == HashCountAggregate@UniqueKey,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> OnlyDuplicateRows"
+				},
+				{
+					"name": "FinalOnlyDuplicateRows",
+					"script": "OnlyDuplicateRows select(mapColumn(\n\t\tStore_nbr,\n\t\tStrType,\n\t\tOpenDate,\n\t\tgregorian_date,\n\t\tCases,\n\t\tSales\n\t))~> FinalOnlyDuplicateRows"
 				}
 			]
 		}

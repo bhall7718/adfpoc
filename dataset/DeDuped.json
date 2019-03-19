@@ -1,5 +1,5 @@
 {
-	"name": "RemoveNullsOutput",
+	"name": "DeDuped",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "wmtredata",
@@ -9,7 +9,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "nullfilters",
+				"folderPath": "deduped",
 				"container": "walmartdata"
 			},
 			"columnDelimiter": ",",

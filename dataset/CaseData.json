@@ -1,5 +1,5 @@
 {
-	"name": "CaseData2",
+	"name": "CaseData",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "wmtredata",
