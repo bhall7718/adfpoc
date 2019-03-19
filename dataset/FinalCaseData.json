@@ -1,0 +1,14 @@
+{
+	"name": "FinalCaseData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "wmtredata",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureBlob",
+		"typeProperties": {
+			"fileName": "final/casedata.csv",
+			"folderPath": "walmartdata"
+		}
+	}
+}
