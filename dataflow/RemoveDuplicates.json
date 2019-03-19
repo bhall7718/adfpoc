@@ -21,6 +21,14 @@
 					},
 					"name": "SaveToDeDupedCSV",
 					"script": "FinalDeDupedRows sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['deduped.csv'],\n\ttruncate:true) ~> SaveToDeDupedCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "Dupes",
+						"type": "DatasetReference"
+					},
+					"name": "SaveDupesCSV",
+					"script": "FinalOnlyDuplicateRows sink(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> SaveDupesCSV"
 				}
 			],
 			"transformations": [

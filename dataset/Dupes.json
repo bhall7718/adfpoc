@@ -1,0 +1,20 @@
+{
+	"name": "Dupes",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "wmtredata",
+			"type": "LinkedServiceReference"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "dupes",
+				"container": "walmartdata"
+			},
+			"columnDelimiter": ",",
+			"firstRowAsHeader": true
+		},
+		"schema": []
+	}
+}
