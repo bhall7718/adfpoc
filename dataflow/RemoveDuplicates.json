@@ -28,7 +28,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "SaveDupesCSV",
-					"script": "FinalOnlyDuplicateRows sink(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> SaveDupesCSV"
+					"script": "FinalOnlyDuplicateRows sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['dupes.csv'],\n\ttruncate:true) ~> SaveDupesCSV"
 				}
 			],
 			"transformations": [
