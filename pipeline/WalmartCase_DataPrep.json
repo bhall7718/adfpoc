@@ -82,8 +82,16 @@
 				}
 			},
 			{
-				"name": "Copy Data1",
+				"name": "GenerateFinal",
 				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "RemoveDuplicates",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -96,11 +104,20 @@
 						"type": "BlobSource",
 						"recursive": true
 					},
+					"sink": {
+						"type": "BlobSink"
+					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
 						"referenceName": "DeDupedBlob",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "FinalCaseData",
 						"type": "DatasetReference"
 					}
 				]
