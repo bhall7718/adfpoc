@@ -21,6 +21,14 @@
 					},
 					"name": "OutputToCSV",
 					"script": "RemoveZeroSales sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['removenullsoutput.csv']) ~> OutputToCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "ChristmasDayData",
+						"type": "DatasetReference"
+					},
+					"name": "SaveToChristmasCSV",
+					"script": "ChristmasDayData sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['christmasdaydata.csv'],\n\ttruncate:true) ~> SaveToChristmasCSV"
 				}
 			],
 			"transformations": [
@@ -51,6 +59,10 @@
 				{
 					"name": "RemoveZeroSales",
 					"script": "RemoveNullStoreType filter(Sales > 0.0) ~> RemoveZeroSales"
+				},
+				{
+					"name": "ChristmasDayData",
+					"script": "Stage1CaseData filter(and(equals(month(toDate(gregorian_date)),12),equals(dayOfMonth(toDate(gregorian_date)), 25))) ~> ChristmasDayData"
 				}
 			]
 		}
