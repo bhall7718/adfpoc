@@ -20,7 +20,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "OutputToCSV",
-					"script": "RemoveZeroSales sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['removenullsoutput.csv']) ~> OutputToCSV"
+					"script": "RemoveChristmasDay sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['removenullsoutput.csv']) ~> OutputToCSV"
 				}
 			],
 			"transformations": [
@@ -51,6 +51,10 @@
 				{
 					"name": "RemoveZeroSales",
 					"script": "RemoveNullStoreType filter(Sales > 0.0) ~> RemoveZeroSales"
+				},
+				{
+					"name": "RemoveChristmasDay",
+					"script": "RemoveZeroSales filter(not(and(equals(month(toDate(gregorian_date)),12),equals(dayOfMonth(toDate(gregorian_date)),25)))) ~> RemoveChristmasDay"
 				}
 			]
 		}
